@@ -132,9 +132,22 @@ export default async function PurchasesPage() {
                   <div className="mt-4">
                     <Link
                       href={`/dashboard/purchases/${order.id}/download`}
-                      className="text-sm text-indigo-600 hover:text-indigo-500 font-medium"
+                      className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
                     >
-                      Download Produk →
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                        />
+                      </svg>
+                      Download Produk
                     </Link>
                   </div>
                 )}
