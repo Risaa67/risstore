@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import CheckoutButton from "@/components/checkout-button";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -120,9 +121,9 @@ export default async function ProductDetailPage({
                 </dl>
               </div>
 
-              <button className="mt-8 w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 transition-colors">
-                Beli Sekarang
-              </button>
+              <div className="mt-8">
+                <CheckoutButton product={product} />
+              </div>
             </div>
           </div>
         </div>
