@@ -15,10 +15,10 @@ Kalau deadline **nanti malam**, kita jangan membuat sprint yang terlalu besar. G
 | No   | Task                              | Status |
 | ---- | --------------------------------- | ------ |
 | S0-1 | Membuat repository GitHub         | ⬜      |
-| S0-2 | Membuat project Next.js           | ⬜      |
-| S0-3 | Install Tailwind CSS              | ⬜      |
-| S0-4 | Membuat project Supabase          | ⬜      |
-| S0-5 | Menghubungkan Next.js ke Supabase | ⬜      |
+| S0-2 | Membuat project Next.js           | ✅      |
+| S0-3 | Install Tailwind CSS              | ✅      |
+| S0-4 | Membuat project Supabase          | ✅      |
+| S0-5 | Menghubungkan Next.js ke Supabase | ✅      |
 | S0-6 | Deploy awal ke Vercel             | ⬜      |
 
 **Output**
@@ -39,20 +39,20 @@ Estimasi: **1 jam**
 
 ### Task
 
-| No    | Task                       | Prioritas |
-| ----- | -------------------------- | --------- |
-| SP1-1 | Halaman Login              | High      |
-| SP1-2 | Halaman Register           | High      |
-| SP1-3 | Integrasi Supabase Auth    | High      |
-| SP1-4 | Logout                     | High      |
-| SP1-5 | Middleware Protected Route | High      |
+| No    | Task                       | Prioritas | Status |
+| ----- | -------------------------- | --------- | ------ |
+| SP1-1 | Halaman Login              | High      | ✅     |
+| SP1-2 | Halaman Register           | High      | ✅     |
+| SP1-3 | Integrasi Supabase Auth    | High      | ✅     |
+| SP1-4 | Logout                     | High      | ✅     |
+| SP1-5 | Middleware Protected Route | High      | ✅     |
 
 **Acceptance Criteria**
 
-* Register berhasil
-* Login berhasil
-* Logout berhasil
-* Dashboard tidak bisa diakses tanpa login
+* Register berhasil ✅
+* Login berhasil ✅
+* Logout berhasil ✅
+* Dashboard tidak bisa diakses tanpa login ✅
 
 ---
 
@@ -66,18 +66,18 @@ Estimasi: **2 jam**
 
 ### Task
 
-| No    | Task          |
-| ----- | ------------- |
-| SP2-1 | Landing Page  |
-| SP2-2 | Card Product  |
-| SP2-3 | Search Produk |
-| SP2-4 | Detail Produk |
+| No    | Task          | Status |
+| ----- | ------------- | ------ |
+| SP2-1 | Landing Page  | ✅     |
+| SP2-2 | Card Product  | ✅     |
+| SP2-3 | Search Produk | ✅     |
+| SP2-4 | Detail Produk | ✅     |
 
 **Acceptance Criteria**
 
-* Produk tampil dari database
-* Search berjalan
-* Detail produk tampil
+* Produk tampil dari database ✅
+* Search berjalan ✅
+* Detail produk tampil ✅
 
 ---
 
@@ -91,19 +91,19 @@ Estimasi: **2 jam**
 
 ### Task
 
-| No    | Task                |
-| ----- | ------------------- |
-| SP3-1 | Dashboard Seller    |
-| SP3-2 | Form Upload         |
-| SP3-3 | Upload Thumbnail    |
-| SP3-4 | Upload File Digital |
-| SP3-5 | Simpan ke Database  |
+| No    | Task                | Status |
+| ----- | ------------------- | ------ |
+| SP3-1 | Dashboard Seller    | ✅     |
+| SP3-2 | Form Upload         | ✅     |
+| SP3-3 | Upload Thumbnail    | ✅     |
+| SP3-4 | Upload File Digital | ✅     |
+| SP3-5 | Simpan ke Database  | ✅     |
 
 **Acceptance Criteria**
 
-* Produk tersimpan
-* Thumbnail tersimpan di Storage
-* File tersimpan di Storage
+* Produk tersimpan ✅
+* Thumbnail tersimpan di Storage ✅
+* File tersimpan di Storage ✅
 
 ---
 
@@ -117,11 +117,11 @@ Estimasi: **1 jam**
 
 ### Task
 
-| No    | Task          |
-| ----- | ------------- |
-| SP4-1 | List Produk   |
-| SP4-2 | Edit Produk   |
-| SP4-3 | Delete Produk |
+| No    | Task          | Status |
+| ----- | ------------- | ------ |
+| SP4-1 | List Produk   | ✅     |
+| SP4-2 | Edit Produk   | ✅     |
+| SP4-3 | Delete Produk | ✅     |
 
 ---
 
