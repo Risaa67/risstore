@@ -129,11 +129,13 @@ Estimasi: **1 jam**
 
 Estimasi: **30 menit**
 
-| No    | Task               |
-| ----- | ------------------ |
-| SP5-1 | Push ke GitHub     |
-| SP5-2 | Deploy ke Vercel   |
-| SP5-3 | Testing Production |
+| No    | Task               | Status |
+| ----- | ------------------ | ------ |
+| SP5-1 | Push ke GitHub     | ✅     |
+| SP5-2 | Deploy ke Vercel   | ✅     |
+| SP5-3 | Testing Production | ✅     |
+
+**Production URL:** https://risstore.vercel.app
 
 ---
 
