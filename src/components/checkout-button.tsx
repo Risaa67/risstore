@@ -38,7 +38,6 @@ export default function CheckoutButton({ product }: { product: Product }) {
         return;
       }
 
-      // Redirect to Midtrans payment page
       if (data.redirect_url) {
         window.location.href = data.redirect_url;
       }
@@ -53,9 +52,21 @@ export default function CheckoutButton({ product }: { product: Product }) {
     <button
       onClick={handleCheckout}
       disabled={loading}
-      className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full bg-primary text-on-primary py-3.5 px-6 rounded-full font-medium hover:bg-primary-container transition-colors shadow-sm hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
     >
-      {loading ? "Memproses..." : `Beli Sekarang - ${formatPrice(product.price)}`}
+      {loading ? (
+        <>
+          <span className="material-symbols-outlined animate-spin text-lg">
+            progress_activity
+          </span>
+          Memproses...
+        </>
+      ) : (
+        <>
+          <span className="material-symbols-outlined text-lg">shopping_cart</span>
+          Beli Sekarang - {formatPrice(product.price)}
+        </>
+      )}
     </button>
   );
 }

@@ -51,16 +51,19 @@ export default function RegisterPage() {
   };
 
   return (
-    <form className="mt-8 space-y-6" onSubmit={handleRegister}>
+    <form className="mt-8 space-y-5" onSubmit={handleRegister}>
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm">
           {error}
         </div>
       )}
 
       <div className="space-y-4">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-on-surface mb-1.5"
+          >
             Nama Lengkap
           </label>
           <input
@@ -69,13 +72,16 @@ export default function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 bg-white"
+            className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
             placeholder="John Doe"
           />
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-on-surface mb-1.5"
+          >
             Email
           </label>
           <input
@@ -84,13 +90,16 @@ export default function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 bg-white"
-            placeholder="you@example.com"
+            className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+            placeholder="email@contoh.com"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="password"
+            className="block text-sm font-medium text-on-surface mb-1.5"
+          >
             Password
           </label>
           <input
@@ -99,13 +108,16 @@ export default function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 bg-white"
-            placeholder="••••••••"
+            className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+            placeholder="Minimal 6 karakter"
           />
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-medium text-on-surface mb-1.5"
+          >
             Konfirmasi Password
           </label>
           <input
@@ -114,25 +126,26 @@ export default function RegisterPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-gray-900 bg-white"
-            placeholder="••••••••"
+            className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+            placeholder="Ulangi password"
           />
         </div>
       </div>
 
-      <div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? "Loading..." : "Daftar"}
-        </button>
-      </div>
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-primary text-on-primary py-3 px-4 rounded-full text-sm font-medium hover:bg-primary-container transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {loading ? "Loading..." : "Daftar"}
+      </button>
 
       <div className="text-center text-sm">
-        <span className="text-gray-600">Sudah punya akun? </span>
-        <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+        <span className="text-on-surface-variant">Sudah punya akun? </span>
+        <Link
+          href="/login"
+          className="font-medium text-primary hover:underline"
+        >
           Login di sini
         </Link>
       </div>

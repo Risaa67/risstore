@@ -18,31 +18,21 @@ export default function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSearch} className="w-full max-w-2xl">
+    <form onSubmit={handleSearch} className="w-full">
       <div className="relative">
+        <span className="material-symbols-outlined absolute left-4 top-1/2 transform -translate-y-1/2 text-on-surface-variant">
+          search
+        </span>
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Cari produk digital..."
-          className="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 bg-white"
+          className="w-full pl-12 pr-24 py-3.5 bg-surface-container-low border border-outline-variant rounded-full text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
         />
-        <svg
-          className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
         <button
           type="submit"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-600 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-indigo-700"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary text-on-primary px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-container transition-colors"
         >
           Cari
         </button>

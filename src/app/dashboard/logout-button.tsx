@@ -15,9 +15,10 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="text-sm text-gray-600 hover:text-gray-900"
+      className="text-on-surface-variant hover:text-primary p-2 rounded-full hover:bg-surface-container-low transition-colors"
+      title="Logout"
     >
-      Logout
+      <span className="material-symbols-outlined text-xl">logout</span>
     </button>
   );
 }

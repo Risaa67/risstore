@@ -31,40 +31,54 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      <nav className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <Link href="/" className="text-xl font-bold text-indigo-600">
-                RisStore
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/marketplace"
-                className="text-gray-600 hover:text-gray-900 text-sm font-medium"
-              >
-                Marketplace
-              </Link>
-              <Link
-                href="/login"
-                className="text-gray-600 hover:text-gray-900 text-sm font-medium"
-              >
-                Login
-              </Link>
-            </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Header */}
+      <header className="bg-surface-container-lowest shadow-sm sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link href="/" className="text-xl font-bold text-primary">
+              RisStore
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/marketplace"
+              className="text-on-surface-variant hover:text-primary transition-colors text-sm font-medium"
+            >
+              Marketplace
+            </Link>
+            <Link
+              href="/login"
+              className="text-primary font-medium text-sm hover:bg-surface-container-low px-4 py-2 rounded-full transition-colors"
+            >
+              Masuk
+            </Link>
           </div>
         </div>
-      </nav>
+      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <main className="max-w-7xl mx-auto w-full px-4 md:px-8 py-8">
+        {/* Breadcrumb */}
+        <nav className="flex items-center gap-2 text-sm text-on-surface-variant mb-6">
+          <Link href="/" className="hover:text-primary transition-colors">
+            Beranda
+          </Link>
+          <span className="material-symbols-outlined text-sm">chevron_right</span>
+          <Link
+            href="/marketplace"
+            className="hover:text-primary transition-colors"
+          >
+            Marketplace
+          </Link>
+          <span className="material-symbols-outlined text-sm">chevron_right</span>
+          <span className="text-on-surface">{product.title}</span>
+        </nav>
+
+        <div className="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-surface-container-low">
           <div className="md:flex">
             {/* Thumbnail */}
             <div className="md:w-1/2">
-              <div className="relative h-96 md:h-full min-h-[400px] bg-gray-200">
+              <div className="relative h-96 md:h-full min-h-[400px] bg-surface-container-low">
                 {product.thumbnail ? (
                   <Image
                     src={product.thumbnail}
@@ -73,48 +87,61 @@ export default async function ProductDetailPage({
                     className="object-cover"
                   />
                 ) : (
-                  <div className="flex items-center justify-center h-full text-gray-400">
-                    No Image
+                  <div className="flex items-center justify-center h-full text-on-surface-variant">
+                    <span className="material-symbols-outlined text-6xl">
+                      image
+                    </span>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Details */}
-            <div className="md:w-1/2 p-8">
-              <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-sm font-medium rounded-full">
+            <div className="md:w-1/2 p-8 flex flex-col">
+              <span className="inline-block w-fit bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-xs font-medium mb-4">
                 {product.category}
               </span>
 
-              <h1 className="mt-4 text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl md:text-3xl font-bold text-on-surface">
                 {product.title}
               </h1>
 
-              <p className="mt-4 text-3xl font-bold text-indigo-600">
-                {formatPrice(product.price)}
-              </p>
+              <div className="flex items-center gap-4 mt-4">
+                <span className="text-2xl font-bold text-primary">
+                  {formatPrice(product.price)}
+                </span>
+                <div className="flex items-center gap-1 text-sm">
+                  <span className="material-symbols-outlined icon-fill text-yellow-400 text-sm">
+                    star
+                  </span>
+                  <span className="text-on-surface">4.9</span>
+                  <span className="text-on-surface-variant">(128)</span>
+                </div>
+              </div>
 
               <div className="mt-6">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h2 className="text-lg font-semibold text-on-surface mb-2">
                   Deskripsi
                 </h2>
-                <p className="mt-2 text-gray-600 whitespace-pre-wrap">
+                <p className="text-on-surface-variant leading-relaxed">
                   {product.description}
                 </p>
               </div>
 
-              <div className="mt-6">
-                <h2 className="text-lg font-semibold text-gray-900">
+              <div className="mt-6 p-4 bg-surface-container-low rounded-xl">
+                <h2 className="text-sm font-semibold text-on-surface mb-3">
                   Detail Produk
                 </h2>
-                <dl className="mt-2 space-y-2">
-                  <div className="flex justify-between">
-                    <dt className="text-gray-500">Kategori</dt>
-                    <dd className="text-gray-900">{product.category}</dd>
+                <dl className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <dt className="text-on-surface-variant">Kategori</dt>
+                    <dd className="text-on-surface font-medium">
+                      {product.category}
+                    </dd>
                   </div>
-                  <div className="flex justify-between">
-                    <dt className="text-gray-500">Tanggal Upload</dt>
-                    <dd className="text-gray-900">
+                  <div className="flex justify-between text-sm">
+                    <dt className="text-on-surface-variant">Tanggal Upload</dt>
+                    <dd className="text-on-surface font-medium">
                       {new Date(product.created_at).toLocaleDateString("id-ID")}
                     </dd>
                   </div>
@@ -123,11 +150,21 @@ export default async function ProductDetailPage({
 
               <div className="mt-8">
                 <CheckoutButton product={product} />
+                <p className="text-xs text-on-surface-variant text-center mt-3">
+                  Pembayaran aman via Midtrans
+                </p>
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-surface-container-lowest border-t border-outline-variant mt-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 text-center text-sm text-on-surface-variant">
+          &copy; 2024 RisStore. All rights reserved.
+        </div>
+      </footer>
     </div>
   );
 }

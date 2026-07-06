@@ -31,7 +31,6 @@ export default function UploadProductForm() {
     setLoading(true);
 
     try {
-      // Get current user
       const {
         data: { user },
       } = await supabase.auth.getUser();
@@ -45,7 +44,6 @@ export default function UploadProductForm() {
       let thumbnailUrl = "";
       let fileUrl = "";
 
-      // Upload thumbnail
       if (thumbnail) {
         const thumbnailExt = thumbnail.name.split(".").pop();
         const thumbnailPath = `thumbnails/${user.id}/${Date.now()}.${thumbnailExt}`;
@@ -67,7 +65,6 @@ export default function UploadProductForm() {
         thumbnailUrl = publicUrl;
       }
 
-      // Upload digital file
       if (digitalFile) {
         const fileExt = digitalFile.name.split(".").pop();
         const filePath = `files/${user.id}/${Date.now()}.${fileExt}`;
@@ -89,7 +86,6 @@ export default function UploadProductForm() {
         fileUrl = publicUrl;
       }
 
-      // Save product to database
       const { error: insertError } = await supabase.from("products").insert({
         seller_id: user.id,
         title,
@@ -117,138 +113,156 @@ export default function UploadProductForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+        <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm">
           {error}
         </div>
       )}
 
-      <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Nama Produk *
-        </label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          placeholder="Masukkan nama produk"
-        />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              Nama Produk *
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+              placeholder="Masukkan nama produk"
+            />
+          </div>
 
-      <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Deskripsi *
-        </label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-          rows={4}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          placeholder="Jelaskan produk Anda"
-        />
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              Deskripsi *
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+              rows={4}
+              className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface resize-none"
+              placeholder="Jelaskan produk Anda"
+            />
+          </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Harga (Rp) *
-          </label>
-          <input
-            type="number"
-            id="price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            required
-            min="0"
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="0"
-          />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-on-surface mb-1.5">
+                Harga (Rp) *
+              </label>
+              <input
+                type="number"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                required
+                min="0"
+                className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+                placeholder="0"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-on-surface mb-1.5">
+                Kategori *
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+                className="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-xl text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface"
+              >
+                {CATEGORIES.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="category"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Kategori *
-          </label>
-          <select
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            {CATEGORIES.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              Thumbnail Produk
+            </label>
+            <div className="border-2 border-dashed border-outline-variant rounded-xl p-6 text-center hover:border-primary transition-colors">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
+                className="hidden"
+                id="thumbnail"
+              />
+              <label htmlFor="thumbnail" className="cursor-pointer">
+                <span className="material-symbols-outlined text-4xl text-on-surface-variant mb-2">
+                  cloud_upload
+                </span>
+                <p className="text-sm text-on-surface-variant">
+                  {thumbnail ? thumbnail.name : "Klik untuk upload thumbnail"}
+                </p>
+                <p className="text-xs text-on-surface-variant mt-1">
+                  PNG, JPG, atau WebP (maks 5MB)
+                </p>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-on-surface mb-1.5">
+              File Digital *
+            </label>
+            <div className="border-2 border-dashed border-outline-variant rounded-xl p-6 text-center hover:border-primary transition-colors">
+              <input
+                type="file"
+                onChange={(e) => setDigitalFile(e.target.files?.[0] || null)}
+                required
+                className="hidden"
+                id="digitalFile"
+              />
+              <label htmlFor="digitalFile" className="cursor-pointer">
+                <span className="material-symbols-outlined text-4xl text-on-surface-variant mb-2">
+                  folder_upload
+                </span>
+                <p className="text-sm text-on-surface-variant">
+                  {digitalFile ? digitalFile.name : "Klik untuk upload file digital"}
+                </p>
+                <p className="text-xs text-on-surface-variant mt-1">
+                  PDF, ZIP, atau file lainnya (maks 100MB)
+                </p>
+              </label>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <label
-          htmlFor="thumbnail"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Thumbnail Produk
-        </label>
-        <input
-          type="file"
-          id="thumbnail"
-          accept="image/*"
-          onChange={(e) => setThumbnail(e.target.files?.[0] || null)}
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-        />
-        <p className="mt-1 text-xs text-gray-500">PNG, JPG, atau WebP (maks 5MB)</p>
-      </div>
-
-      <div>
-        <label
-          htmlFor="digitalFile"
-          className="block text-sm font-medium text-gray-700"
-        >
-          File Digital *
-        </label>
-        <input
-          type="file"
-          id="digitalFile"
-          onChange={(e) => setDigitalFile(e.target.files?.[0] || null)}
-          required
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-        />
-        <p className="mt-1 text-xs text-gray-500">
-          PDF, ZIP, atau file lainnya (maks 100MB)
-        </p>
-      </div>
-
-      <div className="flex gap-4">
+      <div className="flex gap-4 pt-4">
         <button
           type="submit"
           disabled={loading}
-          className="bg-indigo-600 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-primary text-on-primary px-8 py-3 rounded-full text-sm font-medium hover:bg-primary-container transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
-          {loading ? "Uploading..." : "Upload Produk"}
+          {loading ? (
+            <>
+              <span className="material-symbols-outlined animate-spin text-lg">
+                progress_activity
+              </span>
+              Uploading...
+            </>
+          ) : (
+            <>
+              <span className="material-symbols-outlined text-lg">upload</span>
+              Upload Produk
+            </>
+          )}
         </button>
         <button
           type="button"
           onClick={() => router.back()}
-          className="bg-gray-100 text-gray-700 px-6 py-2 rounded-md text-sm font-medium hover:bg-gray-200"
+          className="bg-surface-container-low text-on-surface px-6 py-3 rounded-full text-sm font-medium hover:bg-surface-container transition-colors border border-outline-variant"
         >
           Batal
         </button>
