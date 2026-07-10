@@ -1,8 +1,92 @@
 -- ============================================
--- JALANKAN SEMUA INI DI SUPABASE SQL EDITOR
+-- RISSTORE - FULL DATABASE SETUP
+-- Jalankan SEMUA ini di Supabase SQL Editor
 -- ============================================
 
--- 1. TABEL REVIEWS
+-- 1. TABEL PRODUCTS
+CREATE TABLE IF NOT EXISTS products (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  seller_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  description TEXT DEFAULT '',
+  price INTEGER NOT NULL DEFAULT 0,
+  thumbnail TEXT DEFAULT '',
+  file_url TEXT DEFAULT '',
+  category VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE products ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  DROP POLICY IF EXISTS "Products are viewable by everyone" ON products;
+  DROP POLICY IF EXISTS "Sellers can insert their own products" ON products;
+  DROP POLICY IF EXISTS "Sellers can update their own products" ON products;
+  DROP POLICY IF EXISTS "Sellers can delete their own products" ON products;
+END $$;
+
+CREATE POLICY "Products are viewable by everyone" ON products
+  FOR SELECT USING (true);
+
+CREATE POLICY "Sellers can insert their own products" ON products
+  FOR INSERT WITH CHECK (auth.uid() = seller_id);
+
+CREATE POLICY "Sellers can update their own products" ON products
+  FOR UPDATE USING (auth.uid() = seller_id);
+
+CREATE POLICY "Sellers can delete their own products" ON products
+  FOR DELETE USING (auth.uid() = seller_id);
+
+
+-- 2. TABEL ORDERS
+CREATE TABLE IF NOT EXISTS orders (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  buyer_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  total INTEGER NOT NULL DEFAULT 0,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  DROP POLICY IF EXISTS "Buyers can view their own orders" ON orders;
+  DROP POLICY IF EXISTS "Buyers can create their own orders" ON orders;
+END $$;
+
+CREATE POLICY "Buyers can view their own orders" ON orders
+  FOR SELECT USING (auth.uid() = buyer_id);
+
+CREATE POLICY "Buyers can create their own orders" ON orders
+  FOR INSERT WITH CHECK (auth.uid() = buyer_id);
+
+CREATE POLICY "Buyers can update their own orders" ON orders
+  FOR UPDATE USING (auth.uid() = buyer_id);
+
+
+-- 3. TABEL ORDER_ITEMS
+CREATE TABLE IF NOT EXISTS order_items (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  price INTEGER NOT NULL DEFAULT 0
+);
+
+ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
+
+DO $$ BEGIN
+  DROP POLICY IF EXISTS "Users can view order items" ON order_items;
+  DROP POLICY IF EXISTS "Users can create order items" ON order_items;
+END $$;
+
+CREATE POLICY "Users can view order items" ON order_items
+  FOR SELECT USING (true);
+
+CREATE POLICY "Users can create order items" ON order_items
+  FOR INSERT WITH CHECK (true);
+
+
+-- 4. TABEL REVIEWS
 CREATE TABLE IF NOT EXISTS reviews (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
@@ -38,7 +122,7 @@ CREATE POLICY "Users can delete their own reviews" ON reviews
   FOR DELETE USING (auth.uid() = user_id);
 
 
--- 2. STORAGE BUCKET PRODUCTS (skip kalau sudah ada)
+-- 5. STORAGE BUCKET
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 VALUES (
   'products', 'products', true, 104857600,
@@ -46,28 +130,20 @@ VALUES (
 )
 ON CONFLICT (id) DO NOTHING;
 
-
--- 3. STORAGE POLICIES (drop lama dulu biar tidak konflik)
 DO $$ BEGIN
-  DROP POLICY IF EXISTS "Users can upload to their own folder" ON storage.objects;
-  DROP POLICY IF EXISTS "Public read access" ON storage.objects;
-  DROP POLICY IF EXISTS "Users can delete own files" ON storage.objects;
+  DROP POLICY IF EXISTS "Allow upload to products bucket" ON storage.objects;
+  DROP POLICY IF EXISTS "Allow public read on products bucket" ON storage.objects;
+  DROP POLICY IF EXISTS "Allow delete on products bucket" ON storage.objects;
 END $$;
 
--- Upload: authenticated users bisa upload ke bucket products
 CREATE POLICY "Allow upload to products bucket"
-ON storage.objects FOR INSERT
-TO authenticated
+ON storage.objects FOR INSERT TO authenticated
 WITH CHECK (bucket_id = 'products');
 
--- Read: semua orang bisa lihat file di bucket products
 CREATE POLICY "Allow public read on products bucket"
-ON storage.objects FOR SELECT
-TO public
+ON storage.objects FOR SELECT TO public
 USING (bucket_id = 'products');
 
--- Delete: authenticated users bisa hapus dari bucket products
 CREATE POLICY "Allow delete on products bucket"
-ON storage.objects FOR DELETE
-TO authenticated
+ON storage.objects FOR DELETE TO authenticated
 USING (bucket_id = 'products');
