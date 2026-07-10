@@ -12,6 +12,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -46,8 +47,8 @@ export default function RegisterPage() {
       return;
     }
 
-    router.push("/login");
-    router.refresh();
+    setSuccess("Registrasi berhasil! Silakan cek email untuk verifikasi, lalu login.");
+    setLoading(false);
   };
 
   return (
@@ -55,6 +56,11 @@ export default function RegisterPage() {
       {error && (
         <div className="bg-error-container text-on-error-container px-4 py-3 rounded-xl text-sm">
           {error}
+        </div>
+      )}
+      {success && (
+        <div className="bg-green-50 text-green-700 px-4 py-3 rounded-xl text-sm border border-green-200">
+          {success}
         </div>
       )}
 
