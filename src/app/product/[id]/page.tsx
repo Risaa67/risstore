@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import CheckoutButton from "@/components/checkout-button";
+import ReviewList from "@/components/review-list";
+import ReviewForm from "@/components/review-form";
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("id-ID", {
@@ -28,6 +30,49 @@ export default async function ProductDetailPage({
 
   if (error || !product) {
     notFound();
+  }
+
+  // Fetch reviews
+  const { data: reviewsData } = await supabase
+    .from("reviews")
+    .select("*")
+    .eq("product_id", id)
+    .order("created_at", { ascending: false });
+
+  const reviews = (reviewsData || []) as any[];
+  const totalReviews = reviews.length;
+  const averageRating =
+    totalReviews > 0
+      ? reviews.reduce((sum: number, r: any) => sum + r.rating, 0) / totalReviews
+      : 0;
+
+  // Check if current user has purchased this product
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  let hasPurchased = false;
+  let hasReviewed = false;
+
+  if (user) {
+    const { data: orderItem } = await supabase
+      .from("order_items")
+      .select("id, orders!inner(buyer_id, status)")
+      .eq("product_id", id)
+      .eq("orders.buyer_id", user.id)
+      .eq("orders.status", "success")
+      .single();
+
+    hasPurchased = !!orderItem;
+
+    const { data: existingReview } = await supabase
+      .from("reviews")
+      .select("id")
+      .eq("product_id", id)
+      .eq("user_id", user.id)
+      .single();
+
+    hasReviewed = !!existingReview;
   }
 
   return (
@@ -110,13 +155,19 @@ export default async function ProductDetailPage({
                 <span className="text-2xl font-bold text-primary">
                   {formatPrice(product.price)}
                 </span>
-                <div className="flex items-center gap-1 text-sm">
-                  <span className="material-symbols-outlined icon-fill text-yellow-400 text-sm">
-                    star
-                  </span>
-                  <span className="text-on-surface">4.9</span>
-                  <span className="text-on-surface-variant">(128)</span>
-                </div>
+                {totalReviews > 0 && (
+                  <div className="flex items-center gap-1 text-sm">
+                    <span className="material-symbols-outlined icon-fill text-yellow-400 text-sm">
+                      star
+                    </span>
+                    <span className="text-on-surface">
+                      {averageRating.toFixed(1)}
+                    </span>
+                    <span className="text-on-surface-variant">
+                      ({totalReviews})
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="mt-6">
@@ -155,6 +206,25 @@ export default async function ProductDetailPage({
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-8 bg-surface-container-lowest rounded-2xl shadow-sm border border-surface-container-low p-6">
+          <h2 className="text-xl font-bold text-on-surface mb-6">Review</h2>
+
+          <ReviewForm
+            productId={id}
+            hasPurchased={hasPurchased}
+            hasReviewed={hasReviewed}
+          />
+
+          <div className="mt-6">
+            <ReviewList
+              reviews={reviews || []}
+              averageRating={averageRating}
+              totalReviews={totalReviews}
+            />
           </div>
         </div>
       </main>
